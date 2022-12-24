@@ -1,0 +1,35 @@
+body * {
+  direction: rtl;
+  text-align: right;
+  font-family: Vazir;
+}
+
+.Nav_link {
+  display: flex;
+}
+
+.sidenav {
+  padding-right: 0;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+}
+.header {
+  margin: 2rem auto;
+}
+
+.margin-0 {
+  margin: 0;
+}
+
+.card .card-image .card-title {
+  left: auto;
+  right: 0;
+}
+
+.left {
+  left: 23px;
+  right: auto;
+}

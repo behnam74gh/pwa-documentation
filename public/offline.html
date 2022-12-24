@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="theme-color" content="#ff7777" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <title>ایونت سامانه اطلاع رسانی</title>
+
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/static/css/materialize.min.css"
+    />
+    <link rel="stylesheet" type="text/css" href="/static/css/vazir.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+    <link rel="manifest" href="./manifest.json" />
+
+    <link
+      rel="app-touch-icon"
+      href="/static/icons/homescreen48.png"
+      sizes="48x48"
+    />
+    <link
+      rel="app-touch-icon"
+      href="/static/icons/homescreen72.png"
+      sizes="72x72"
+    />
+    <link
+      rel="app-touch-icon"
+      href="/static/icons/homescreen96.png"
+      sizes="96x96"
+    />
+    <link
+      rel="app-touch-icon"
+      href="/static/icons/homescreen144.png"
+      sizes="144x144"
+    />
+    <link
+      rel="app-touch-icon"
+      href="/static/icons/homescreen168.png"
+      sizes="168x168"
+    />
+    <link
+      rel="app-touch-icon"
+      href="/static/icons/homescreen192.png"
+      sizes="192x192"
+    />
+    <link
+      rel="app-touch-icon"
+      href="/static/icons/homescreen256.png"
+      sizes="256x256"
+    />
+    <link
+      rel="app-touch-icon"
+      href="/static/icons/homescreen512.png"
+      sizes="512x512"
+    />
+  </head>
+  <body>
+    <ul class="sidenav pr0" id="mobile-demo">
+      <li><a href="sass.html">صفحه اصلی</a></li>
+      <li><a href="badges.html">ایونت ها</a></li>
+      <li><a href="collapsible.html">درباره ما</a></li>
+    </ul>
+
+    <nav class="blue darknes-1" id="navbar">
+      <div class="container">
+        <div class="nav-wrapper">
+          <a href="#!" class="brand-logo">ایونت</a>
+          <a href="#" data-target="mobile-demo" class="sidenav-trigger"
+            ><i class="material-icons">menu</i></a
+          >
+          <ul class="Nav_link left hide-on-med-and-down">
+            <li><a href="index.html">صفحه اصلی</a></li>
+            <li><a href="events.html">ایونت ها</a></li>
+            <li><a href="about.html">درباره ما</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="progress margin-0 blue darken-2">
+      <div class="indeterminate blue darken-4"></div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="valign-wrapper header">
+          <h3 class="center">
+            به دلیل کَش نبودن این صفحه،به محتویات آن دسترســـی ندارید
+          </h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="fixed-action-btn">
+      <a
+        class="btn-floating btn-large waves-effect waves-light red"
+        href="create.html"
+        ><i class="material-icons">add</i></a
+      >
+    </div>
+
+    <script src="/static/js/app.js"></script>
+    <script src="/static/js/materialize.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var elems = document.querySelectorAll(".sidenav");
+        var instances = M.Sidenav.init(elems, {});
+      });
+    </script>
+  </body>
+</html>

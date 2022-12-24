@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="theme-color" content="#ff7777" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <title>ایونت سامانه اطلاع رسانی</title>
+
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/static/css/materialize.min.css"
+    />
+    <link rel="stylesheet" type="text/css" href="/static/css/vazir.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+    <link rel="manifest" href="./manifest.json" />
+
+    <link
+      rel="app-touch-icon"
+      href="/static/icons/homescreen48.png"
+      sizes="48x48"
+    />
+    <link
+      rel="app-touch-icon"
+      href="/static/icons/homescreen72.png"
+      sizes="72x72"
+    />
+    <link
+      rel="app-touch-icon"
+      href="/static/icons/homescreen96.png"
+      sizes="96x96"
+    />
+    <link
+      rel="app-touch-icon"
+      href="/static/icons/homescreen144.png"
+      sizes="144x144"
+    />
+    <link
+      rel="app-touch-icon"
+      href="/static/icons/homescreen168.png"
+      sizes="168x168"
+    />
+    <link
+      rel="app-touch-icon"
+      href="/static/icons/homescreen192.png"
+      sizes="192x192"
+    />
+    <link
+      rel="app-touch-icon"
+      href="/static/icons/homescreen256.png"
+      sizes="256x256"
+    />
+    <link
+      rel="app-touch-icon"
+      href="/static/icons/homescreen512.png"
+      sizes="512x512"
+    />
+    <style>
+      #videoPlayer,
+      #canvas,
+      #captureBtn {
+        display: none;
+      }
+      #captureBtn {
+        margin: 10px auto;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 3px;
+        color: white;
+        background-color: #333;
+        top: 10px;
+        cursor: grabbing;
+      }
+      .mediaWrapper {
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
+  </head>
+  <body>
+    <ul class="sidenav pr0" id="mobile-demo">
+      <li><a href="/index.html">صفحه اصلی</a></li>
+      <li><a href="/badges.html">ایونت ها</a></li>
+      <li><a href="/collapsible.html">درباره ما</a></li>
+    </ul>
+
+    <nav class="blue darknes-1" id="navbar">
+      <div class="container">
+        <div class="nav-wrapper">
+          <a href="#!" class="brand-logo">ایونت</a>
+          <a href="#" data-target="mobile-demo" class="sidenav-trigger"
+            ><i class="material-icons">menu</i></a
+          >
+          <ul class="Nav_link left hide-on-med-and-down">
+            <li><a href="/index.html">صفحه اصلی</a></li>
+            <li><a href="/create.html">ایجاد محصول</a></li>
+            <li><a href="/events.html">ایونت ها</a></li>
+            <li><a href="/about.html">درباره ما</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="progress margin-0 blue darken-2">
+      <div class="indeterminate blue darken-4"></div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <form action="#" id="send-product">
+          <h4>ایجاد محصول</h4>
+          <div class="input-field col s12">
+            <input type="text" name="title" placeholder="عنوان محصول" />
+          </div>
+          <div class="input-field col s12">
+            <textarea
+              type="text"
+              name="body"
+              class="materialize-textarea"
+              placeholder="متن محصول"
+            ></textarea>
+          </div>
+          <div class="col s12">
+            <div class="row mediaWrapper">
+              <video id="videoPlayer" autoplay class="col s12"></video>
+              <canvas
+                id="canvas"
+                width="100%"
+                height="100%"
+                class="col s12"
+              ></canvas>
+              <button id="captureBtn">گرفتن عکس</button>
+            </div>
+          </div>
+          <div class="input-field col s12">
+            <input
+              type="file"
+              name="image"
+              placeholder="تصوی محصول"
+              id="image"
+            />
+          </div>
+          <div class="input-field col s12">
+            <input type="text" name="price" placeholder="قیمت محصول" />
+          </div>
+          <button type="submit" class="waves-effect waves-light red">
+            ایجاد کُن
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="fixed-action-btn">
+      <a
+        class="btn-floating btn-large waves-effect waves-light red"
+        href="create.html"
+        ><i class="material-icons">add</i></a
+      >
+    </div>
+
+    <script src="/static/js/dexie.js"></script>
+    <script src="/static/js/db.js"></script>
+    <script src="/static/js/app.js"></script>
+    <script src="/static/js/materialize.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        var elems = document.querySelectorAll(".sidenav");
+        var instances = M.Sidenav.init(elems, {});
+
+        const imageInput = document.getElementById("image");
+        const videoPlayer = document.getElementById("videoPlayer");
+        const canvasElement = document.getElementById("canvas");
+        const captureBtn = document.getElementById("captureBtn");
+
+        const showStreamHandler = () => {
+          videoPlayer.style.display = "block";
+          captureBtn.style.display = "block";
+          imageInput.style.display = "none";
+        };
+        const hideStreamHandler = () => {
+          videoPlayer.style.display = "none";
+          captureBtn.style.display = "none";
+        };
+
+        imageInput.addEventListener("change", (event) => {
+          window.picture = event.target.files[0];
+        });
+
+        const getUserMediaHandleer = async () => {
+          if (!("mediaDevices" in navigator)) {
+            console.log("media-devices are not support");
+            return;
+          }
+
+          if (navigator.mediaDevices.getUserMedia === undefined) {
+            navigator.mediaDevices.getUserMedia = function (constraints) {
+              let getUserMedia =
+                navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
+              if (!getUserMedia) {
+                return Promise.reject(
+                  new Error("getUserMedia is not implemented in this media")
+                );
+              }
+
+              return new Promise(function (resolve, reject) {
+                getUserMedia.call(navigator, constraints, resolve, reject);
+              });
+            };
+          }
+
+          const checkVideoDevice = async () => {
+            let devices = await navigator.mediaDevices.enumerateDevices();
+            let status = false;
+            devices.forEach((device) => {
+              if (device.kind == "videoinput") status = true;
+            });
+
+            return status;
+          };
+
+          if (await checkVideoDevice()) {
+            let constraints = {
+              audio: false,
+              video: true,
+            };
+            navigator.mediaDevices
+              .getUserMedia(constraints)
+              .then((stream) => {
+                showStreamHandler();
+                videoPlayer.srcObject = stream;
+              })
+              .catch((err) => {
+                console.log("err in stream : ", err);
+              });
+          } else {
+            console.log("i can not find any video devices");
+          }
+
+          captureBtn.addEventListener("click", (event) => {
+            event.preventDefault();
+            hideStreamHandler();
+            canvasElement.style.display = "block";
+
+            let context = canvasElement.getContext("2d");
+            // console.log(canvas.width, videoPlayer.videoHeight);
+            context.drawImage(videoPlayer, 0, 0, canvas.width, canvas.height);
+            videoPlayer.srcObject
+              .getVideoTracks()
+              .forEach((track) => track.stop());
+
+            // canvasElement.toDataURL() */get the url of picture to demonstrate it into an image tag/*
+
+            //to upload the picture to server
+            canvasElement.toBlob((blob) => {
+              // console.log("=>", blob);
+              window.picture = blob;
+              // we must choose a name and pasvand
+            });
+          });
+        };
+
+        await getUserMediaHandleer();
+
+        // submit sync posts via background-sync
+        let sendProduct = document.getElementById("send-product");
+        sendProduct.addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          let title = this.querySelector('input[name="title"]'),
+            body = this.querySelector('textarea[name="body"]'),
+            image = this.querySelector('input[name="image"]'),
+            price = this.querySelector('input[name="price"]');
+
+          if (
+            title.value == "" ||
+            body.value == "" ||
+            price.value == "" ||
+            window.picture == undefined
+          ) {
+            alert("مقادیر خالی را وارد کنید");
+            return;
+          }
+
+          if ("serviceWorker" in navigator && "SyncManager" in window) {
+            navigator.serviceWorker.ready.then((swRegisteration) => {
+              db.syncProducts
+                .put({
+                  title: title.value,
+                  body: body.value,
+                  image: window.picture,
+                  price: price.value,
+                })
+                .then(() => {
+                  return swRegisteration.sync.register("sync-new-product");
+                })
+                .then(() => {
+                  console.log("Task Synced");
+                })
+                .catch((err) => console.log("err - Sync failed", err));
+            });
+          } else {
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
